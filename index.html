@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Card Generator</title>
+</head>
+<body>
+    <h1>Credit Card Generator</h1>
+    <button onclick="generateCard()">Generate Card</button>
+    <div id="card-details">
+        <img id="card-image" alt="Card Image" />
+        <p id="card-number"></p>
+        <p id="card-holder-name"></p>
+        <p id="expiry-date"></p>
+        <p id="cvc"></p>
+        <p id="balance"></p>
+    </div>
+
+    <script>
+        function generateCard() {
+            fetch('/generate-card')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('card-number').textContent = `Card Number: ${data.card_number}`;
+                    document.getElementById('card-holder-name').textContent = `Card Holder: ${data.card_holder_name}`;
+                    document.getElementById('expiry-date').textContent = `Expiry Date: ${data.expiry_month}/${data.expiry_year}`;
+                    document.getElementById('cvc').textContent = `CVC: ${data.cvc}`;
+                    document.getElementById('balance').textContent = `Balance: ${data.balance}`;
+                    document.getElementById('card-image').src = `data:image/png;base64,${data.card_image}`;
+                });
+        }
+    </script>
+</body>
+</html>
